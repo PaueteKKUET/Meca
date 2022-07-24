@@ -313,9 +313,9 @@ const QWERTY = {
         ]
     ]
 
-}
+};
 
-export {QWERTY}
+export {QWERTY};
 
 
 
