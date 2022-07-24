@@ -1,0 +1,129 @@
+
+.keyboard {
+    background-color: #0000ff31;
+
+    height: 96%;
+
+    aspect-ratio: 2.6 / 1;
+    padding: 1%;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    max-width: fit-content;
+}
+
+.keyboardRow {
+    height: 8vh;
+}
+
+
+/* Keys */
+.key {
+    display: inline-block;
+    position: relative;
+    height: 7vh;
+
+    z-index: 1;
+
+    background-color: white;
+    border-radius: 8%;
+
+    transition: transform 0.2s, background-color 0.2s, z-indx 0.2s linear 0.2s;
+
+    margin: 0.2vh;
+
+    outline: 1px solid #777;
+}
+
+.key.pressed {
+    background-color: #ffc800;
+    transform: scale(1.1);
+    z-index: 2;
+
+    transition: transform 0.2s, background-color 0.2s, z-index 0.2s;
+}
+
+.key * {
+    z-index: 0;
+    font-size: 2.2vh;
+}
+
+.key.normal {
+    width: 7vh;
+}
+
+.key.backspace {
+    width: 12.6vh;
+    border-radius: 5px;
+}
+
+.key.tab {
+    width: 9.5vh;
+}
+
+.key.caps {
+    width: 11.8vh;
+}
+
+.key.big {
+    width: 8.4vh;
+}
+
+.key.spacebar {
+    width: 47.2vh;
+    border-radius: 5px;
+}
+
+.key.bigcaps {
+    width: 18.6vh;
+    border-radius: 5px;
+}
+
+.key.intro {
+    width: 10vh;
+}
+
+
+/* Chars */
+
+.char {
+    position: relative;
+    float: left;
+
+    color: #666;
+}
+
+.mainChar {
+    top: 3.6vh;
+    left: 1.4vh;
+}
+
+.shiftChar {
+    top: 0.4vh;
+    left: 1.4vh;
+}
+
+.altChar {
+    top: 3.6vh;
+    left: 2.4vh;
+}
+
+.char.highlighted {
+    transform: scale(1.05);
+    color: black;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,7 +1,18 @@
 import React from "react";
 import {QWERTY_esEs} from "./Keys";
 
-export class SimpleKey extends React.Component<{}, {pressed: boolean, highlighted: KeyType}> {
+import "./Keyboard.css";
+
+import "./KeyListener";
+
+export class SimpleKey extends React.Component<
+    {
+        keyProps: KeyProperties
+    },
+    {
+        pressed: boolean,
+        highlighted: KeyType
+    }> {
 
     private keyProps: KeyProperties;
 
@@ -10,10 +21,10 @@ export class SimpleKey extends React.Component<{}, {pressed: boolean, highlighte
      * @param props the properties of the key
      * @see KeyProperties
      */
-    constructor(props: KeyProperties) {
+    constructor(props: any) {
         super(props);
 
-        this.keyProps = props;
+        this.keyProps = props.keyProps;
 
         this.state = {
             pressed: false,
@@ -127,7 +138,7 @@ export class SimpleKey extends React.Component<{}, {pressed: boolean, highlighte
         // add the main character
         characters.push(
             <span
-                className={"main-char" + (this.state.highlighted === KeyType.NORMAL ? " highlighted" : "")}
+                className={"char mainChar" + (this.state.highlighted === KeyType.NORMAL ? " highlighted" : "")}
             >
                 {this.getMainChar()}
             </span>);
@@ -136,7 +147,7 @@ export class SimpleKey extends React.Component<{}, {pressed: boolean, highlighte
         if (this.hasShift()) {
             characters.push(
                 <span
-                    className={"shift-char" + (this.state.highlighted === KeyType.SHIFT ? " highlighted" : "")}
+                    className={"char shiftChar" + (this.state.highlighted === KeyType.SHIFT ? " highlighted" : "")}
                 >
                     {this.getShiftChar()}
                 </span>);
@@ -146,7 +157,7 @@ export class SimpleKey extends React.Component<{}, {pressed: boolean, highlighte
         if (this.hasAlt()) {
             characters.push(
                 <span
-                    className={"alt-char" + (this.state.highlighted === KeyType.ALT ? " highlighted" : "")}
+                    className={"char altChar" + (this.state.highlighted === KeyType.ALT ? " highlighted" : "")}
                 >
                     {this.getAltChar()}
                 </span>);
@@ -209,10 +220,6 @@ export class KeyProperties {
         this.extraTriggers = extraTriggers;
     }
 
-    public create(): SimpleKey {
-        return new SimpleKey(this);
-    }
-
 }
 
 /**
@@ -242,39 +249,41 @@ export enum KeyType {
 /**
  * Stores all the available keys on the keyboard and their respective key components.
  */
-export const keyMap = new Map<string, SimpleKey>();
+export const keyMap: Map<string, SimpleKey> = new Map<string, SimpleKey>();
+
+let keyboardRows = [];
 
 /**
  * Generates the keyboard JSX Element
  */
 function generateKeyboard(): Array<JSX.Element> {
+    let keyboard: Array<JSX.Element> = [];
 
-    let jsxRows: Array<JSX.Element> = [];
+    QWERTY_esEs.getRows().forEach(row => {
+        let rowElements: Array<JSX.Element> = [];
+        row.forEach(key => {
+            rowElements.push(
+                <SimpleKey keyProps={key} key={key.name} />
+            )
+        });
+        keyboard.push(
+            <div
+                className={"keyboardRow"}
+            >
+                {rowElements}
+            </div>
+        );
+    });
 
-    for (let row of QWERTY_esEs.getRows()) {
-        jsxRows.push(generateRow(row))
-    }
-
-    return jsxRows;
+    return keyboard;
 }
-
-/**
- * Generates a row of JSX keys
- * @param row the array of keys.
- */
-function generateRow(row: Array<SimpleKey>): JSX.Element {
-    return (
-        <div className="row">
-            {row.map(key => key.render())}
-        </div>
-    )
-}
-
 
 /**
  * The Meca keyboard component. It contains rows of keys.
  */
 export const Keyboard = () => {
+    QWERTY_esEs.init();
+
     return (
         <div className={"keyboard"}>
             {generateKeyboard()}

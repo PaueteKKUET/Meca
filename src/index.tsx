@@ -1,10 +1,13 @@
 import React from 'react';
-import {createRoot} from "react-dom/client";
 
+import "./index.css";
+
+import {createRoot} from "react-dom/client";
 import {Keyboard} from "./keyboard/Keyboard";
 
-// @ts-ignore
-const root = createRoot(document.getElementById('root'));
+const rootElement = document.getElementById("root");
+if (!rootElement) throw new Error("Root element not present");
+const root = createRoot(rootElement);
 
 class Application extends React.Component {
     render() {
